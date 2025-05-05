@@ -1,3 +1,4 @@
+//입력은 여러 개의 테스트 케이스로 이루어져 있으므로 배열 생성 부분이 while 내부에 있어야 한다.
 import java.io.*;
 import java.util.*;
 
