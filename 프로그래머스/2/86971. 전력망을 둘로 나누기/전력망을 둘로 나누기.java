@@ -1,41 +1,40 @@
 import java.util.*;
-
 class Solution {
     int answer;
-    Map<Integer, List<Integer>> graph;
+    Map<Integer, List<Integer>> map;
     boolean[] visited;
+
     public int solution(int n, int[][] wires) {
         answer = n;
-        //✅ 주어진 엣지 데이터를 사용하기 쉽게 가공한다.
-        graph = new HashMap<>();
-        for (int i = 1; i <= n; i++) {
-            graph.put(i, new ArrayList<>());
-        }
-        for (int[] wire : wires) {
-            graph.get(wire[0]).add(wire[1]);
-            graph.get(wire[1]).add(wire[0]);
-        }
-        
-        //✅ DFS 탐색을 수행하며 답을 구한다.
+        map = new HashMap<>();
         visited = new boolean[n+1];
+
+        for(int i=1; i<=n; i++){
+            map.put(i, new ArrayList<>());
+        }
+
+        for(int[] wire : wires){
+            map.get(wire[0]).add(wire[1]);
+            map.get(wire[1]).add(wire[0]);
+        }
+
         dfs(1, n);
-        
+
         return answer;
     }
-    
-    int dfs(int cur, int n) {
+
+    int dfs(int cur, int n){
         int count = 1;
         visited[cur] = true;
-        
-        for (int next : graph.get(cur)) {
-            if (!visited[next]) {
+
+        for(int next : map.get(cur)){
+            if(!visited[next]){
                 count += dfs(next, n);
             }
         }
-      	//✅ 최적값을 업데이트한다.
-        answer = Math.min(answer, Math.abs(n - count * 2));
-        
-      	//✅ 자신 아래의 노드 수를 재귀적으로 반환한다.
+
+        answer = Math.min(answer, Math.abs(n - count*2));
+
         return count;
     }
 }
